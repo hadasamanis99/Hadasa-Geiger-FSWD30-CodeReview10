@@ -22,7 +22,7 @@ $publisher_name ="";
 
 // attempt query execution
 
-$sql = "select Media.pk_Book_id, Media.Title as Title, Media.picture_url as Image, Genre.Description as Genre, concat(Author.First_Name, ' ', Author.Last_Name) as Author, Publisher.Publisher_name as Publisher from Media inner join Genre  on Media.fk_Genre_id = Genre.pk_Genre_id inner join Author on Media.fk_Author_id = Author.pk_Author_id inner join Publisher on Media.fk_Publisher_id = Publisher.pk_Publisher_id";
+$sql = "select Media.pk_Book_id, Media.Title as Title, Media.picture_url as Image, Media.ISBN as ISBN, Genre.Description as Genre, concat(Author.First_Name, ' ', Author.Last_Name) as Author, Publisher.Publisher_name as Publisher from Media inner join Genre  on Media.fk_Genre_id = Genre.pk_Genre_id inner join Author on Media.fk_Author_id = Author.pk_Author_id inner join Publisher on Media.fk_Publisher_id = Publisher.pk_Publisher_id";
 
 if (isset($_GET['publisher'])) {
     $sql .= " where Publisher.Publisher_name like '%" . $_GET['publisher'] . "%'";
@@ -46,6 +46,7 @@ while($row=$results->fetch_assoc())
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous"> 
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <link href="css/style.css" rel="stylesheet">
+
   <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="

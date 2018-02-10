@@ -1,29 +1,10 @@
 
-// this is used for validation (following the examples provided by the bootstrap docu in the internet)
- window.addEventListener('load', function() {
-    var form = document.getElementById('needs-validation');
-    form.addEventListener('submit', function(event) {
-      var authorVal = document.getElementById("author").value.trim();
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      if ( (authorVal == "Danielle Steel") || (authorVal == "Roland Emmerich")){
-        alert ("Yawn!!! Please choose another option ...");
-        document.getElementById("authorReject").innerHTML = "I do not want to save this!!!";
-        event.preventDefault();
-        event.stopPropagation();        
-      }
-      form.classList.add('was-validated');
-      addMedium();
-    }, false);
-  }, false);
-
 // set the value of environment (can be "xs", "sm", "md", "lg")
 var environ = getResponsiveBreakpoint();
 
 // construct HTML-string for the element of the array media at position index 
 function getStringForMedium (index) {
+	console.log(media[index]);
 	var retVal = 
 	// open divs (was using copy+paste of real HTML...)
 	    "<div class=\"col-lg-4 col-md-4 col-sm-4 col-xs-6\">" 
@@ -34,31 +15,20 @@ function getStringForMedium (index) {
 	    + "\" height=180px></img><br>" 
 	    // add the title (markup <h4>)
 	    + "<h4> " + media[index].Title + " </h4>" 
-	    // prepare display of genre; display the genres in blue. 
+	    // prepare display of genre; display the genres in blue.  
 	    + "Genre: <span style=\"color: blue;\">" + media[index].Genre + "</span><br>"
 	     // prepare display of author in red.
 	    + "<span style=\"color: red;\">" + media[index].Author + "</span>";
 	 // if publisher is not null or empty string, then display aside of author (enclosed in brackets)
 	 if ((media[index].Publisher != null)&& ((media[index].Publisher + ' ').trim()!='')) {
-	 	retVal += " (" + media[index].Publisher + ")";
+	 	retVal += " (" + media[index].Publisher ;
+	 	if ((media[index].ISBN != null)&& ((media[index].ISBN + ' ').trim()!='')) {
+	 	    retVal += ", ISBN: " + media[index].ISBN;	 		
+	 	}
+	 	retVal +=  ")";
      }
-	 // if minutes is not null or empty string, then display as "Length: " + value + " minutes"
-     if ((media[index].Minutes != null)&& ((media[index].Minutes + ' ').trim()!='')) {
-	 	retVal += "<br>Length: " + media[index].Minutes + " minutes";
-     }
-	 // if weight is not null or empty string, then display as "Weight: " + value + " kg"
-     if ((media[index].Weight != null)&& ((media[index].Weight + ' ').trim()!='')) {
-	 	retVal += "<br>Weight: " + media[index].Weight + " kg";
-     }
-	 // check if rating is not null, if it is a number, and not an empty string
-	 if (media[index].Rating != null && !isNaN(media[index].Rating) && ((media[index].Rating + ' ').trim()!='')) {
-	 	retVal  += "<br>";
-	 	// display bintang as often as rating
-        for (ind=0;ind<media[index].Rating;ind++) {
-        	retVal  += "&#9733;";
-        }
-	 	retVal  += "<br>";	 	
-	 }
+	 
+	 
 	 // close divs   
      retVal  += "      </div>" + "       </div>";
 	 return retVal;
@@ -112,38 +82,6 @@ function getResponsiveBreakpoint() {
     return env;
 }
 
-// this is used for adding media
-function addMedium() {
-	// define variables
-	var authorVal = document.getElementById("author").value.trim();
-	var ratingVal = document.getElementById("rating").value;
-	var minutesVal = document.getElementById("minutes").value;
-	var weightVal = document.getElementById("weight").value;
-	if ((authorVal == "Danielle Steel") || (authorVal == "Roland Emmerich")) {
-		//alert ("Yawn!!! Please choose another option ..."); // not needed any more
-    } else {
-    	// define new variable. This will be added to the array media later
-	    var mediumX = {
-		    Title: document.getElementById("title").value,	
-            Author: authorVal,
-            Genre: document.getElementById("genre").value.split(","),
-            Publisher: document.getElementById("publisher").value,
-	        Image: document.getElementById("image").value,
-	        Rating: document.getElementById("rating").value,
-	        Minutes: document.getElementById("minutes").value,
-	        Weight: document.getElementById("weight").value
-	    }  
-	    // add mediumX to array media
-	    media.push(mediumX);
-	    // reset of inner HTML of document.getElementById("firstPos")
-	    document.getElementById("firstPos").innerHTML = "";
-	    // fill document.getElementById("firstPos").innerHTML with new content
-	    writeMedia();
-    }
-    // reset the values in the form
-    resetFormValues();
- 	return false;
-}
 
  // reset the values in the form
 function resetFormValues() {
@@ -157,20 +95,3 @@ function resetFormValues() {
 	document.getElementById("weight").value = "";
 }
 
-// if radio button for book is selected, hide element with id minutesDiv
-function showBookWeight(){
-  document.getElementById('minutesDiv').style.display ='none';
-  document.getElementById('afterMinutesDiv').style.display ='none';  
-  document.getElementById('weightDiv').style.display = '';
-  document.getElementById('afterWeightDiv').style.display = '';
-  document.getElementById("minutes").value = null;
-}
-
-// if radio button for movies or songs is selected, hide element with id weightDiv
-function showLength(){
-  document.getElementById('minutesDiv').style.display = '';
-  document.getElementById('afterMinutesDiv').style.display =''; 
-  document.getElementById('weightDiv').style.display ='none';
-    document.getElementById('afterWeightDiv').style.display = 'none';
-  document.getElementById("weight").value = null;
-}
