@@ -23,9 +23,9 @@ function getStringForMedium (index) {
 	 if ((media[index].Publisher != null)&& ((media[index].Publisher + ' ').trim()!='')) {
 	 	retVal += " (" + media[index].Publisher ;
 	 	if ((media[index].ISBN != null)&& ((media[index].ISBN + ' ').trim()!='')) {
-	 	    retVal += ", ISBN: " + media[index].ISBN;	 		
-	 	}
-	 	retVal +=  ")";
+	 	    retVal += ",<br>ISBN: " + media[index].ISBN +")";	 		
+	 	} else  retVal += ")<br>&nbsp;";
+	 
      }
 	 
 	 
